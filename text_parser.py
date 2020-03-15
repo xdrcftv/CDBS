@@ -1,13 +1,15 @@
 import numpy as np
 import glob
 import matplotlib.pyplot as plt
+from scipy import ndimage
 from scipy.signal import find_peaks, peak_prominences
 from lmfit import Model
 import os
 from scipy import integrate
 
 
-def asc_parser(path):
+def CDBS_parser(path):
+    """read asc files under path and return np matrix"""
     asc_file_list = glob.glob(os.path.join(path, "*CDBS*.asc"))
     f = open(asc_file_list[0], 'r')
     lines = f.readlines()
@@ -18,7 +20,7 @@ def asc_parser(path):
         del count[0]
         CDBS_data.append(count)
 
-    CDBS_data = np.array(CDBS_data, dtype=float)
+    CDBS_data = ndimage.rotate(np.array(CDBS_data, dtype=float), -45, reshape=False)
     return CDBS_data
 
 
@@ -36,9 +38,6 @@ def find_subdir(root):
 def gaussian(x, amp, cen, wid):
     """1-d gaussian: gaussian(x, amp, cen, wid)"""
     return (amp / (np.sqrt(2 * np.pi) * wid)) * np.exp(-(x - cen) ** 2 / (2 * wid ** 2))
-
-
-gmodel = Model(gaussian)
 
 
 def find_sudo_peak(matrix, width):
