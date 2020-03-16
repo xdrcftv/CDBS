@@ -26,20 +26,28 @@ gmodel = Model(gaussian)
 normal_curves = []
 x_hr = np.linspace(-width, width, 10*width)
 
+# plt.imshow(CDBS_matrix[5])
+# plt.show()
+
 for i, matrix in enumerate(CDBS_matrix):
     x, y, max_point = find_sudo_peak(matrix, width=width)
-    params = gmodel.make_params(cen=max_point[0], amp=np.max(y)*(np.sqrt(2*np.pi)*width/2), wid= width/2)
+    params = gmodel.make_params(cen=max_point[1], amp=np.max(y)*(np.sqrt(2*np.pi)*width/2), wid= width/2)
     result = gmodel.fit(y, params, x=x)
     AUC = integrate.simps(result.best_fit, x)
 
+    # plt.plot(x, y,'.', label=subdir_name[i])
+    # plt.plot(x, result.best_fit, '--')
     # plt.plot(x_hr, y_hr, label=subdir_name[i])
-    plt.plot(result.best_fit,'-', label='gmodel'+subdir_name[i])
-
-    # y_hr = gaussian(x_hr, 1, 0, wid=result.best_values['wid'])  # 가우시안 함수로 그리기
+    y_hr = gaussian(x_hr, 1, 0, wid=result.best_values['wid'])  # 가우시안 함수로 그리기
     # normal_curves.append(np.divide(result.best_fit, AUC))
-    # plt.plot(y_hr, label=subdir_name[i])
-    plt.title('gmodel'+subdir_name[i])
-    plt.show()
+    plt.plot(x_hr,y_hr, label=subdir_name[i])
+    plt.yscale('log')
+
+plt.legend(loc='best')
+plt.show()
+
+
+
 
 # plt.legend(loc='best')
 # plt.show()
