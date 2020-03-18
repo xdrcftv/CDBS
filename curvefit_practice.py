@@ -25,10 +25,10 @@ gmodel = Model(gaussian)
 
 normal_curves = []
 x_hr = np.linspace(-width, width, 10*width)
-
+energy_bin = (661.7-511)/(502-266)
 # plt.imshow(CDBS_matrix[5])
 # plt.show()
-
+linestyle = ['--', 'o', '^', '>', 's','-.', ':']
 for i, matrix in enumerate(CDBS_matrix):
     x, y, max_point = find_sudo_peak(matrix, width=width)
     params = gmodel.make_params(cen=max_point[1], amp=np.max(y)*(np.sqrt(2*np.pi)*width/2), wid= width/2)
@@ -39,10 +39,13 @@ for i, matrix in enumerate(CDBS_matrix):
     # plt.plot(x, result.best_fit, '--')
     # plt.plot(x_hr, y_hr, label=subdir_name[i])
     y_hr = gaussian(x_hr, 1, 0, wid=result.best_values['wid'])  # 가우시안 함수로 그리기
+    print(result.best_values['wid'])
     # normal_curves.append(np.divide(result.best_fit, AUC))
-    plt.plot(x_hr,y_hr, label=subdir_name[i])
-    plt.yscale('log')
+    plt.plot(np.add(energy_bin*x_hr, 511),y_hr,'{}'.format(linestyle[i]), label=subdir_name[i])
+    # plt.yscale('log')
 
+plt.xlabel("Energy (keV)")
+plt.ylabel("Counts")
 plt.legend(loc='best')
 plt.show()
 
