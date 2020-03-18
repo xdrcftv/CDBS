@@ -49,3 +49,23 @@ def find_sudo_peak(matrix, width):
     return chn_num, count, max_point
 
 
+# class CDBS:
+#
+#     def __init__(self, name, path):
+#         self.name = name
+#         self.path = path
+#
+#     def parse(self):
+#         f = open(self, 'r')
+#         lines = f.readlines()
+#         for i in range(1024):
+#             data = []
+#             count = lines[i+23].split(",")
+#             count = list(map(int, count))
+#             def count[0]
+#             data.append(count)
+#         self.matrix = ndimage.rotate(np.array(data, dtype=float), -45, reshape=False)
+#
+#     def find_peak
+
+

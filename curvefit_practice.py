@@ -35,13 +35,12 @@ for i, matrix in enumerate(CDBS_matrix):
     result = gmodel.fit(y, params, x=x)
     AUC = integrate.simps(result.best_fit, x)
 
-    # plt.plot(x, y,'.', label=subdir_name[i])
+    plt.plot(x, y, '-.', label=subdir_name[i])
     # plt.plot(x, result.best_fit, '--')
     # plt.plot(x_hr, y_hr, label=subdir_name[i])
-    y_hr = gaussian(x_hr, 1, 0, wid=result.best_values['wid'])  # 가우시안 함수로 그리기
+    # y_hr = gaussian(x_hr, 1, 0, wid=result.best_values['wid'])  # 가우시안 함수로 그리기
     print(result.best_values['wid'])
-    # normal_curves.append(np.divide(result.best_fit, AUC))
-    plt.plot(np.add(energy_bin*x_hr, 511),y_hr,'{}'.format(linestyle[i]), label=subdir_name[i])
+    # plt.plot(np.add(energy_bin*x_hr, 511),y_hr,'{}'.format(linestyle[i]), label=subdir_name[i])
     # plt.yscale('log')
 
 plt.xlabel("Energy (keV)")
