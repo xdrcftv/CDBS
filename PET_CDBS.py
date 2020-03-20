@@ -12,7 +12,7 @@ width = 30
 gmodel = Model(gaussian)
 
 
-linestyle = ['o', '^', '>', 's','-.', ':', '--']
+linestyle = ['s', '^', '>', 'o','-.', ':', '--']
 
 for n, file in enumerate(CDBS_files):
     basename = os.path.basename(file)
