@@ -2,7 +2,7 @@ from text_parser import *
 from lmfit import Model
 import os
 
-dir_path = 'C:/Users/JGL/Desktop/2020_03_18'
+dir_path = 'C:/Users/JUN/Desktop/2020_03_18'
 CDBS_files = glob.glob(os.path.join(dir_path, "*CDBS*.asc"))
 file_name = []
 DBS_matrix = {}
@@ -13,7 +13,7 @@ width = 30
 gmodel = Model(gaussian)
 
 
-linestyle = ['o', '^', '>', 's','-.', ':', '--']
+linestyle = ['s', 'o', '^', '.', '-.', ':', '--']
 
 for n, file in enumerate(CDBS_files):
     basename = os.path.basename(file)
@@ -41,7 +41,7 @@ for n, file in enumerate(CDBS_files):
 
     x_adj = np.add(0.134*np.subtract(x, max_point[1]), 511)
     print(result.best_values['wid'])
-    plt.plot(x_adj, np.divide(y, AUC), linestyle[n], label=label_list[n]+'DBS')
+    plt.plot(x_adj, np.divide(y, AUC), linestyle[n], label=label_list[n])
 ######################################################################
     params_CDBS = gmodel.make_params(cen=max_point_CBDS[1], amp=np.max(y_CDBS) * (np.sqrt(2 * np.pi) * width / 2),
                                      wid=width / 2)
@@ -50,15 +50,15 @@ for n, file in enumerate(CDBS_files):
 
     x_adj_CDBS = np.add(0.134 * np.subtract(x_CDBS, max_point_CBDS[1]), 511)
     print(result_CDBS.best_values['wid'])
-    plt.plot(x_adj_CDBS, np.divide(y_CDBS, AUC_CDBS), linestyle[n], label=label_list[n])
+    plt.plot(x_adj_CDBS, np.divide(y_CDBS, AUC_CDBS), linestyle[n], label=label_list[n]+'CDBS')
     # x_hr = np.linspace(x[0], x[-1], 10*len(x))
     # y_hr = gaussian(x_hr, cen=result.best_values['cen'], amp=result.best_values['amp'], wid=result.best_values['wid'])
     # plt.plot(x_hr, y_hr, '-')
 
 margin = 0.06
-plt.xlim()
+plt.xlim(x_adj_CDBS[0]-margin, x_adj_CDBS[-1]+margin)
 plt.yscale('log')
-plt.xlabel("keV")
-plt.ylabel("A.U.")
+plt.xlabel("Energy (keV)")
+plt.ylabel("Counts (A.U.)")
 plt.legend(loc='best')
 plt.show()
