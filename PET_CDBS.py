@@ -2,11 +2,11 @@ from text_parser import *
 from lmfit import Model
 import os
 
-dir_path = 'C:/Users/JGL/PycharmProjects/CDBS/2020_03_18'
+dir_path = './2020_03_18'
 CDBS_files = glob.glob(os.path.join(dir_path, "*CDBS*.asc"))
 file_name = []
 CDBS_matrix = {}
-label_list = ['sample 2', 'sample 3', 'sample A', 'sample B', 'sample 1']
+label_list = ['sample A', 'sample B', 'sample 1', 'sample 2', 'sample 3']
 
 width = 30
 gmodel = Model(gaussian)

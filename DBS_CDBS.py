@@ -7,7 +7,7 @@ CDBS_files = glob.glob(os.path.join(dir_path, "*CDBS*.asc"))
 file_name = []
 DBS_matrix = {}
 CDBS_matrix = {}
-label_list = ['sample 2', 'sample 3', 'sample A', 'sample B', 'sample 1']
+label_list = ['sample A', 'sample B', 'sample 1', 'sample 2', 'sample 3']
 
 width = 30
 gmodel = Model(gaussian)
