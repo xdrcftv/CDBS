@@ -2,12 +2,12 @@ from text_parser import *
 from lmfit import Model
 import os
 
-dir_path = 'C:/Users/JUN/Desktop/2020_03_18'
+dir_path = './2020_03_18'
 CDBS_files = glob.glob(os.path.join(dir_path, "*CDBS*.asc"))
 file_name = []
 DBS_matrix = {}
 CDBS_matrix = {}
-label_list = ['sample 2', 'sample 3', 'sample A']
+label_list = ['sample 2', 'sample 3', 'sample A', 'sample B', 'sample 1']
 
 width = 30
 gmodel = Model(gaussian)
@@ -56,7 +56,7 @@ for n, file in enumerate(CDBS_files):
     # plt.plot(x_hr, y_hr, '-')
 
 margin = 0.06
-plt.xlim(x_adj_CDBS[0]-margin, x_adj_CDBS[-1]+margin)
+plt.xlim(x_adj_CDBS[0]-margin, 515)
 plt.yscale('log')
 plt.xlabel("Energy (keV)")
 plt.ylabel("Counts (A.U.)")
