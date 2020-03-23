@@ -2,7 +2,7 @@ from text_parser import *
 from lmfit import Model
 import os
 
-dir_path = 'C:/Users/JUN/Desktop/2020_03_18'
+dir_path = 'C:/Users/JGL/Desktop/2020_03_18'
 CDBS_files = glob.glob(os.path.join(dir_path, "*CDBS*.asc"))
 file_name = []
 DBS_matrix = {}
@@ -55,6 +55,8 @@ for n, file in enumerate(CDBS_files):
     # y_hr = gaussian(x_hr, cen=result.best_values['cen'], amp=result.best_values['amp'], wid=result.best_values['wid'])
     # plt.plot(x_hr, y_hr, '-')
 
+margin = 0.06
+plt.xlim()
 plt.yscale('log')
 plt.xlabel("keV")
 plt.ylabel("A.U.")
