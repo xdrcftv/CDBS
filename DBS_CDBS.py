@@ -62,3 +62,4 @@ plt.xlabel("Energy (keV)")
 plt.ylabel("Counts (A.U.)")
 plt.legend(loc='best')
 plt.show()
+
