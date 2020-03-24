@@ -49,6 +49,12 @@ def find_sudo_peak(matrix, width):
     return chn_num, count, max_point
 
 
+def extract_ROI(matrix, width):
+    max_point = np.squeeze(np.array(np.where(matrix == np.amax(matrix))))
+    chn_num = np.arange(max_point[1]-width, max_point[1]+width)
+    ROI_matrix = matrix[max_point[0]-1:max_point[0]+1, chn_num]
+    return chn_num, ROI_matrix, max_point
+
 # class CDBS:
 #
 #     def __init__(self, name, path):
