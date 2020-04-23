@@ -14,6 +14,7 @@ gmodel = Model(gaussian)
 
 linestyle = ['s', '^', '>', 'o','-.', ':', '--']
 
+
 for n, file in enumerate(CDBS_files):
     basename = os.path.basename(file)
     file_name.append(basename)
@@ -47,19 +48,5 @@ plt.xlabel("keV")
 plt.ylabel("A.U.")
 plt.legend(loc='best')
 plt.show()
-# params = gmodel.make_params(cen=max_point[1], amp=np.max(y)*(np.sqrt(2*np.pi)*width/2), wid= width/2)
-# result = gmodel.fit(y, params, x=x)
-#
-# x_hr = np.linspace(np.min(x), np.max(x), 10*len(x))
-# energy_bin = (661.7-511)/(502-266)
-# x_energy = np.add(energy_bin*x_hr, 511)
-# y_hr = gaussian(x_hr, amp=result.best_values['amp'], cen=result.best_values['cen'], wid=result.best_values['wid'])
-# AUC = integrate.simps(result.best_fit, x)
-# plt.plot(x, y, 'o')
-# plt.plot(x_hr, y_hr)
-# plt.yscale('log')
-# plt.xlabel('CHN')
-# plt.ylabel('Count')
-# plt.legend(loc='best')
-# plt.show()
+
 
