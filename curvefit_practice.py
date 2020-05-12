@@ -1,7 +1,3 @@
-import numpy as np
-import matplotlib.pyplot as plt
-# from scipy.optimize import curve_fit
-from scipy import integrate
 from text_parser import *
 from lmfit import Model
 import os
