@@ -25,7 +25,7 @@ Al_data = ndimage.rotate(np.array(CDBS_data, dtype=float), -45, reshape=False)
 # Al_matrix = []
 # Al_matrix.append(CDBS_parser(Al_path))
 
-width = 100
+width = 50
 x, y, max_point = find_sudo_peak(Al_data, width=width)
 
 gauss1 = GaussianModel(prefix='g1_')
@@ -49,12 +49,14 @@ print(pars)
 mod = gauss1 + gauss2 + gauss3
 
 out = mod.fit(y, pars, x=x)
-
+dely = out.eval_uncertainty(sigma=4)
+print(dely)
 print(out.fit_report(min_correl=0.5))
 
 fig, axes = plt.subplots(1, 2, figsize=(12.8, 4.8))
 axes[0].plot(x, y, 'b')
 axes[0].plot(x, out.best_fit, 'r-', label='best fit')
+axes[0].fill_between(x, out.best_fit-dely, out.best_fit+dely, color='#ABABAB', label = '2-$\sigma$ uncertainty band')
 axes[0].legend(loc='best')
 
 comps = out.eval_components(x=x)
@@ -64,6 +66,8 @@ axes[1].plot(x, comps['g2_'], 'm--', label='Gaussian component 2')
 axes[1].plot(x, comps['g3_'], 'k--', label='Gaussian component 3')
 axes[1].legend(loc='best')
 
+plt.xlabel('CHN')
+plt.ylabel('Count')
 plt.yscale('log')
 plt.show()
 

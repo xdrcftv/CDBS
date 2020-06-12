@@ -30,11 +30,13 @@ init = mod.eval(pars, x=x)
 out = mod.fit(y, pars, x=x)
 
 print(out.fit_report(min_correl=0.5))
+dely = out.eval_uncertainty(sigma=4)
 
 fig, axes = plt.subplots(1, 2, figsize=(12.8, 4.8))
 axes[0].plot(x, y, 'b')
 axes[0].plot(x, init, 'k--', label='initial fit')
 axes[0].plot(x, out.best_fit, 'r-', label='best fit')
+axes[0].fill_between(x, out.best_fit-dely, out.best_fit+dely, color='#ABABAB', label = '4-$\sigma$ uncertainty band')
 axes[0].legend(loc='best')
 
 comps = out.eval_components(x=x)
