@@ -2,7 +2,6 @@ import numpy as np
 import glob
 import matplotlib.pyplot as plt
 from scipy import ndimage
-from scipy.signal import find_peaks, peak_prominences
 from lmfit import Model
 import os
 from scipy import integrate

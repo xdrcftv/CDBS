@@ -31,7 +31,7 @@ x_CDBS, ROI_CDBS, max_point_CBDS = extract_ROI(CDBS_matrix[basename], width=widt
 print("ROI_CDBS shape")
 print(ROI_CDBS.shape)
 # plt.plot(x, np.divide(y, AUC), '.', label=basename)
-for i in range(2):
+for i in range(1):
     y_CDBS = ROI_CDBS[i, :]
     params_CDBS = gmodel.make_params(cen=max_point_CBDS[1], amp=np.max(y_CDBS) * (np.sqrt(2 * np.pi) * width / 2), wid=width / 2)
     result_CDBS = gmodel.fit(y_CDBS, params_CDBS, x=x_CDBS)

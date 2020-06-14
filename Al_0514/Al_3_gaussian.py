@@ -10,7 +10,7 @@ from text_parser import *
 from lmfit import Model
 from lmfit.models import GaussianModel
 
-Al_path = 'C:/Users/user/PycharmProjects/CDBS/Al_0514/200506 CDBS Al.asc'
+Al_path = 'C:/Users/admin\PycharmProjects\CDBS\Al_0514/200506 CDBS Al.asc'
 f = open(Al_path, 'r')
 lines = f.readlines()
 CDBS_data = []
