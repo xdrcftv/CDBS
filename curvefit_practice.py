@@ -1,6 +1,8 @@
-from text_parser import *
-from lmfit import Model
 import os
+
+from lmfit import Model
+
+from text_parser import *
 
 CDBS_path = 'C:/KAERI/CDBS/'
 subdir_name = []
@@ -24,7 +26,7 @@ x_hr = np.linspace(-width, width, 10*width)
 energy_bin = (661.7-511)/(502-266)
 # plt.imshow(CDBS_matrix[5])
 # plt.show()
-linestyle = ['--', 'o', '^', '>', 's','-.', ':']
+linestyle = ['--', 'o', '^', '>', 's', '-.', ':']
 for i, matrix in enumerate(CDBS_matrix):
     x, y, max_point = find_sudo_peak(matrix, width=width)
     params = gmodel.make_params(cen=max_point[1], amp=np.max(y)*(np.sqrt(2*np.pi)*width/2), wid= width/2)
@@ -45,8 +47,6 @@ plt.legend(loc='best')
 plt.show()
 
 
-
-
 # plt.legend(loc='best')
 # plt.show()
 
@@ -60,4 +60,3 @@ plt.show()
 # plt.plot(x, n_curve, 'r-', label='n_curve')
 # plt.legend(loc='best')
 # plt.show()
-
