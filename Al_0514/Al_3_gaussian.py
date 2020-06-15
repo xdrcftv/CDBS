@@ -9,6 +9,7 @@ from scipy import ndimage
 from text_parser import *
 from lmfit import Model
 from lmfit.models import GaussianModel
+from model_function import *
 
 Al_path = 'C:/Users/admin\PycharmProjects\CDBS\Al_0514/200506 CDBS Al.asc'
 f = open(Al_path, 'r')
@@ -28,17 +29,18 @@ Al_data = ndimage.rotate(np.array(CDBS_data, dtype=float), -45, reshape=False)
 width = 50
 x, y, max_point = find_sudo_peak(Al_data, width=width)
 
-gauss1 = GaussianModel(prefix='g1_')
-gauss2 = GaussianModel(prefix='g2_')
-gauss3 = GaussianModel(prefix='g3_')
+def gauss_2(x, amp, wid):
+    """1-d gaussian: gaussian(x, amp, cen, wid)"""
+    return (amp / (np.sqrt(2 * np.pi) * wid)) * np.exp(-(x - max_point[0]) ** 2 / (2 * wid ** 2))
+
+gauss1 = Model(gaussian_1)
+gauss2 = Model(gaussian_2)
+gauss3 = Model(gaussian_3)
 
 pars = gauss1.make_params()
 pars.update(gauss2.make_params())
 pars.update(gauss3.make_params())
 
-pars['g1_center'].set(value=510)
-pars['g2_center'].set(value=510)
-pars['g3_center'].set(value=510)
 
 # pars['g1_center'].set(value=509)
 # pars['g2_center'].set(value=509)

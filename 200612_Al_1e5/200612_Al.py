@@ -1,5 +1,5 @@
 import sys
-import sys
+import os
 
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
@@ -18,15 +18,23 @@ for i in range(1024):
 
 Al_data = ndimage.rotate(np.array(CDBS_data, dtype=float), -45, reshape=False)
 
-width = 200
-chn_num, photons, max_point = find_sudo_peak(Al_data, width=width)
+x_width = 100
+chn_num, photons, max_point = find_sudo_peak(Al_data, width=x_width)
+
+########################################################################################################################
+def gauss_2(x, amp, wid):
+    """1-d gaussian: gaussian(x, amp, cen, wid)"""
+    return (amp / (np.sqrt(2 * np.pi) * wid)) * np.exp(-(x - max_point[0]) ** 2 / (2 * wid ** 2))
 
 ########################################################################################################################
 """Gaussian fitting on E hat projection"""
 ########################################################################################################################
-mod = GaussianModel()
-e_hat = np.arange(max_point[0]-width, max_point[0]+width)
-F_AUC = np.zeros(width*2)
+mod = Model(gauss_2)
+
+y_width = 40
+
+e_hat = np.arange(max_point[0]-y_width, max_point[0]+y_width)
+F_AUC = np.zeros(y_width*2)
 
 # e_hat_proj = Al_data[e_hat, 511]  # CBDS projection on e_hat
 # pars = mod.guess(e_hat_proj, x=e_hat)
@@ -35,18 +43,23 @@ F_AUC = np.zeros(width*2)
 
 for n, chn in enumerate(chn_num):
     e_hat_proj = Al_data[e_hat, chn]  # CBDS projection on e_hat
-    pars = mod.guess(e_hat_proj, x=e_hat)
+    pars = mod.make_params(amp=e_hat_proj[y_width]*np.sqrt(2*np.pi), wid=y_width/2)
     out = mod.fit(e_hat_proj, pars, x=e_hat)
     F_AUC[n] = integrate.simps(out.best_fit, e_hat)
-    if ((n+1) % 10) == 0:
+    if ((n+1) % 5) == 0:
         print(n+1)
+        plt.figure()
+        plt.plot(e_hat, e_hat_proj, '.')
+        plt.plot(e_hat, out.best_fit, '-')
+        plt.title(str(n+1))
+        plt.show()
 
-x_adj_CDBS = np.add(0.134 * np.subtract(chn_num, max_point[1]), 511)
-
-plt.plot(x_adj_CDBS, photons)
-plt.plot(x_adj_CDBS, F_AUC)
-plt.yscale('log')
-plt.show()
+# x_adj_CDBS = np.add(0.134 * np.subtract(chn_num, max_point[1]), 511)
+#
+# plt.plot(x_adj_CDBS, photons)
+# plt.plot(x_adj_CDBS, F_AUC)
+# plt.yscale('log')
+# plt.show()
 
 
 

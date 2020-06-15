@@ -2,7 +2,7 @@ from text_parser import *
 from lmfit import Model
 import os
 
-Al_path = 'C:/Users/user/PycharmProjects/CDBS/Al_0514/200506 CDBS Al.asc'
+Al_path = 'C:/Users/admin\PycharmProjects\CDBS/200612_Al_1e5/200604 CDBS Al.asc'
 f = open(Al_path, 'r')
 lines = f.readlines()
 CDBS_data = []
@@ -22,7 +22,7 @@ x, y, max_point = find_sudo_peak(Al_data, width=width)
 params = gmodel.make_params(cen=max_point[1], amp=np.max(y)*(np.sqrt(2*np.pi)*width/2), wid= width/2)
 result = gmodel.fit(y, params, x=x)
 
-x_hr = np.linspace(np.min(x), np.max(x), 10*len(x))
+x_hr = np.linspace(np.min(x)+60, np.max(x)-60, 10*len(x))
 # energy_bin = (661.7-511)/(502-266)
 # x_energy = np.add(energy_bin*x_hr, 511)
 y_hr = gaussian(x_hr, amp=result.best_values['amp'], cen=result.best_values['cen'], wid=result.best_values['wid'])
