@@ -46,12 +46,12 @@ for n, chn in enumerate(chn_num):
     pars = mod.make_params(amp=e_hat_proj[y_width]*np.sqrt(2*np.pi), wid=y_width/2)
     out = mod.fit(e_hat_proj, pars, x=e_hat)
     F_AUC[n] = integrate.simps(out.best_fit, e_hat)
-    if ((n+1) % 5) == 0:
-        print(n+1)
+    if (n % 5) == 0:
+        print(n)
         plt.figure()
         plt.plot(e_hat, e_hat_proj, '.')
         plt.plot(e_hat, out.best_fit, '-')
-        plt.title(str(n+1))
+        plt.title(str(n))
         plt.show()
 
 # x_adj_CDBS = np.add(0.134 * np.subtract(chn_num, max_point[1]), 511)
