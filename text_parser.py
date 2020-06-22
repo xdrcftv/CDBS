@@ -38,6 +38,11 @@ def gaussian(x, amp, cen, wid):
     """1-d gaussian: gaussian(x, amp, cen, wid)"""
     return (amp / (np.sqrt(2 * np.pi) * wid)) * np.exp(-(x - cen) ** 2 / (2 * wid ** 2))
 
+# def gaussian_2(x, amp, wid):
+#     """1-d gaussian: gaussian(x, amp, wid)"""
+#     return (amp / (np.sqrt(2 * np.pi) * wid)) * np.exp(-(x - ) ** 2 / (2 * wid ** 2))
+
+
 
 def find_sudo_peak(matrix, width):
     """should be changed (peak detection algorithm needed)"""
