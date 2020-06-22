@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from sklearn.mixture import GaussianMixture
 import sys
 import os
+import math
 
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
@@ -25,7 +26,7 @@ for i in range(1024):
     CDBS_data.append(count)
 
 Al_data = ndimage.rotate(np.array(CDBS_data, dtype=float), -45, reshape=False)
-
+chn_num, photons, max_point = find_sudo_peak(Al_data, width=100)
 #######################################################################################################
 """Setting ROI"""
 #######################################################################################################
@@ -35,8 +36,8 @@ bin_centers = 0.5*(bin_edges[:-1] + bin_edges[1:])
 classif = GaussianMixture(n_components=7)
 classif.fit(Al_data.reshape((Al_data.size, 1)))
 
-threshold = np.sort(np.squeeze(classif.means_))[3]
-
+means_ = np.sort(np.squeeze(classif.means_))
+threshold = (means_[2]+means_[3])/2
 binary_img = Al_data > threshold
 
 mask_x = np.any(binary_img, axis=0)
@@ -51,8 +52,6 @@ Al_ROI = Al_data[y1:y2, x1:x2]
 #######################################################################################################
 """Gaussian Fitting & Integral on E hat axis"""
 #######################################################################################################
-mod = Model(gaussian)
-
 row, column = Al_ROI.shape
 
 E_hat = np.arange(y1, y2)
@@ -60,7 +59,15 @@ F_AUC = np.zeros(column)
 plt.figure()
 for c in range(column):
     Ehat_proj = Al_ROI[:, c]
-    pars = mod.make_params(amp=Ehat_proj[int(row/2)]*np.sqrt(2*np.pi), cen=E_hat[int(row/2)], wid=column)
+
+    def gaussian_2(x, wid):
+        """1-d gaussian: gaussian(x, amp, wid)"""
+        return (np.max(Ehat_proj)) * np.exp(-(x - E_hat[math.floor(row/2)]) ** 2 / (2 * wid ** 2))
+
+    mod = Model(gaussian_2)
+    # pars = mod.make_params(amp=Ehat_proj[int(row/2)]*np.sqrt(2*np.pi), cen=E_hat[int(row/2)], wid=column)
+    pars = mod.make_params(wid=column)
+
     out = mod.fit(Ehat_proj, pars, x=E_hat)
     F_AUC[c] = integrate.simps(out.best_fit, E_hat)
     if (c % 5) == 0:
