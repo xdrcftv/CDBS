@@ -25,10 +25,11 @@ chn_num, photons, max_point = find_sudo_peak(Al_data, width=width)
 Al_shape = Al_data.shape
 fig = plt.figure()
 ax = Axes3D(fig)
-ax.zaxis.set_scale('log')
+
 
 X = np.arange(max_point[1]-width, max_point[1]+width)
 Y = np.arange(max_point[0]-width, max_point[0]+width)
 XX, YY = np.meshgrid(X, Y)
-ax.plot_surface(XX, YY, Al_data[XX,YY], rstride=1, cstride=1, cmap='jet')
+ax.contour3D(XX, YY, Al_data[XX, YY], 400, cmap='jet')
+# ax.plot_surface(XX, YY, Al_data[XX,YY], rstride=1, cstride=1, cmap='jet')
 plt.show()

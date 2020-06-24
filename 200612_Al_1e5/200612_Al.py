@@ -5,6 +5,7 @@ sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
 
 from text_parser import *
 from lmfit.models import GaussianModel
+import time
 
 Al_path = "./200604 CDBS Al.asc"
 f = open(Al_path, 'r')
@@ -31,7 +32,7 @@ def gauss_2(x, amp, wid):
 ########################################################################################################################
 mod = Model(gauss_2)
 
-y_width = 40
+y_width = 100
 
 e_hat = np.arange(max_point[0]-y_width, max_point[0]+y_width)
 F_AUC = np.zeros(y_width*2)
@@ -53,6 +54,8 @@ for n, chn in enumerate(chn_num):
         plt.plot(e_hat, out.best_fit, '-')
         plt.title(str(n))
         plt.show()
+        time.sleep(0.2)
+
 
 # x_adj_CDBS = np.add(0.134 * np.subtract(chn_num, max_point[1]), 511)
 #
