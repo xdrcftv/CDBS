@@ -35,6 +35,7 @@ mod = Model(gauss_2)
 y_width = 100
 
 e_hat = np.arange(max_point[0]-y_width, max_point[0]+y_width)
+# e_hat = np.arange(504, 521)
 F_AUC = np.zeros(y_width*2)
 
 # e_hat_proj = Al_data[e_hat, 511]  # CBDS projection on e_hat

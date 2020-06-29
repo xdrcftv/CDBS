@@ -2,7 +2,7 @@ from text_parser import *
 from lmfit import Model
 import os
 
-dir_path = 'C:/Users/JUN/Desktop/2020_03_18'
+dir_path = 'C:/Users/admin/PycharmProjects/CDBS/2020_03_18'
 CDBS_files = glob.glob(os.path.join(dir_path, "*CDBS*.asc"))
 file_name = []
 CDBS_matrix = {}

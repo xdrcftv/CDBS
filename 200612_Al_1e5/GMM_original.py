@@ -8,6 +8,7 @@ import math
 import time
 
 sys.path.append(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
+import cv2
 from text_parser import *
 from lmfit.models import GaussianModel
 from mpl_toolkits.mplot3d import Axes3D
@@ -44,7 +45,7 @@ print("Gaussian Mixture finished")
 print(time.time()-start, "sec")
 
 means_ = np.sort(np.squeeze(classif.means_))
-threshold = means_[2]
+threshold = means_[2]+2000
 binary_img = Al_data > threshold
 
 masked_Al = np.ma.masked_less_equal(Al_data, threshold)
@@ -59,7 +60,6 @@ Al_ROI = masked_Al[y1:y2, x1:x2]
 
 # plt.figure()
 # plt.imshow(Al_ROI)
-# plt.axis('off')
 # plt.show()
 
 print("ROI masking completed")
@@ -91,22 +91,13 @@ for c in range(column):
     # plt.plot(E_hat, out.best_fit, '-')
     # plt.title("dE: "+str(c))
     # plt.show()
-
+# ann_peak = max(F_AUC)
+# F_AUC = np.divide(F_AUC, ann_peak)
 
 plt.figure()
-plt.plot(np.divide(F_AUC, np.max(F_AUC)))
+plt.plot(np.arange(x1,x2), F_AUC)
+plt.yscale('log')
 plt.show()
-#
-# ROI_chn = np.arange(column)
-# normal_count = np.divide(F_AUC, np.max(F_AUC))
-# x_adj_CDBS = np.add(0.134 * np.subtract(ROI_chn, np.mean(ROI_chn)), 511)
-#
-# plt.figure()
-# plt.plot(x_adj_CDBS, normal_count)
-# plt.yscale('log')
-# plt.xlabel("keV")
-# plt.ylabel("Normalized Intensity")
-# plt.show()
 
 print("Gaussian fitting completed")
 print(time.time()-start, "sec")

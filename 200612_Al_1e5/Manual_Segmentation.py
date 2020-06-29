@@ -28,7 +28,7 @@ for i in range(1024):
 
 Al_data = ndimage.rotate(np.array(CDBS_data, dtype=float), -45, reshape=False)
 
-chn_num, photons, max_point = find_sudo_peak(Al_data, width=100)
+chn_num, photons, max_point = find_sudo_peak(Al_data, width=30)
 
 print("CDBS data imported")
 print(time.time()-start, "sec")
@@ -38,53 +38,35 @@ print(time.time()-start, "sec")
 # hist, bin_edges = np.histogram(Al_data, bins=60)
 # bin_centers = 0.5*(bin_edges[:-1] + bin_edges[1:])
 
-classif = GaussianMixture(n_components=7)
-classif.fit(Al_data.reshape((Al_data.size, 1)))
-print("Gaussian Mixture finished")
-print(time.time()-start, "sec")
-
-means_ = np.sort(np.squeeze(classif.means_))
-threshold = means_[2]
-binary_img = Al_data > threshold
-
-masked_Al = np.ma.masked_less_equal(Al_data, threshold)
-
-mask_x = np.any(binary_img, axis=0)
-mask_y = np.any(binary_img, axis=1)
-x1 = np.argmax(mask_x)
-y1 = np.argmax(mask_y)
-x2 = len(mask_x) - np.argmax(mask_x[::-1])
-y2 = len(mask_y) - np.argmax(mask_y[::-1])
-Al_ROI = masked_Al[y1:y2, x1:x2]
-
-# plt.figure()
-# plt.imshow(Al_ROI)
-# plt.axis('off')
-# plt.show()
-
-print("ROI masking completed")
-print(time.time()-start, "sec")
+Al_ROI = Al_data[506:522, chn_num]
 #######################################################################################################
 """Gaussian Fitting & Integral on E hat axis"""
 #######################################################################################################
 
 row, column = Al_ROI.shape
 
-E_hat = np.arange(y1, y2)
+e_hat = np.arange(506, 522)
 F_AUC = np.zeros(column)
-plt.figure()
-for c in range(column):
-    Ehat_proj = Al_ROI[:, c]
+
+for n, c in enumerate(chn_num):
+    e_hat_proj = Al_ROI[:, n]
 
     def gaussian_2(x, wid):
         """1-d gaussian: gaussian(x, amp, wid)"""
-        return (np.max(Ehat_proj)) * np.exp(-(x - 513.7) ** 2 / (2 * wid ** 2))
+        return (np.max(e_hat_proj)) * np.exp(-(x - 514) ** 2 / (2 * wid ** 2))
 
     mod = Model(gaussian_2)
     pars = mod.make_params(wid=column)
 
-    out = mod.fit(Ehat_proj, pars, x=E_hat)
-    F_AUC[c] = integrate.simps(out.best_fit, E_hat)
+    out = mod.fit(e_hat_proj, pars, x=e_hat)
+    F_AUC[n] = integrate.simps(out.best_fit, e_hat)
+    print(n+max_point[1]-30)
+    plt.figure()
+    plt.plot(e_hat, e_hat_proj, '.')
+    plt.plot(e_hat, out.best_fit, '-')
+    plt.title(str(n+max_point[1]-30))
+    plt.show()
+    time.sleep(0.2)
 
     # print(c)
     # plt.plot(E_hat, Ehat_proj, '.')
@@ -93,9 +75,13 @@ for c in range(column):
     # plt.show()
 
 
-plt.figure()
-plt.plot(np.divide(F_AUC, np.max(F_AUC)))
-plt.show()
+# plt.figure()
+# plt.plot(np.divide(F_AUC, np.max(F_AUC)))
+# plt.yscale('log')
+# plt.show()
+
+
+
 #
 # ROI_chn = np.arange(column)
 # normal_count = np.divide(F_AUC, np.max(F_AUC))
