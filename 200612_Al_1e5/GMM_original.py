@@ -78,7 +78,7 @@ for c in range(column):
 
     def gaussian_2(x, wid):
         """1-d gaussian: gaussian(x, amp, wid)"""
-        return (np.max(Ehat_proj)) * np.exp(-(x - 513.7) ** 2 / (2 * wid ** 2))
+        return (np.max(Ehat_proj)) * np.exp(-(x - 513.5) ** 2 / (2 * wid ** 2))
 
     mod = Model(gaussian_2)
     pars = mod.make_params(wid=column)

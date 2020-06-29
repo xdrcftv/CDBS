@@ -27,8 +27,8 @@ for i in range(1024):
     CDBS_data.append(count)
 
 Al_data = ndimage.rotate(np.array(CDBS_data, dtype=float), -45, reshape=False)
-
-chn_num, photons, max_point = find_sudo_peak(Al_data, width=30)
+width = 20
+chn_num, photons, max_point = find_sudo_peak(Al_data, width=width)
 
 print("CDBS data imported")
 print(time.time()-start, "sec")
@@ -45,7 +45,8 @@ Al_ROI = Al_data[506:522, chn_num]
 
 row, column = Al_ROI.shape
 
-e_hat = np.arange(506, 522)
+e_hat = np.add(np.divide(np.subtract(np.arange(16), 8), np.sqrt(2)), 1022)
+
 F_AUC = np.zeros(column)
 
 for n, c in enumerate(chn_num):
@@ -58,15 +59,19 @@ for n, c in enumerate(chn_num):
     mod = Model(gaussian_2)
     pars = mod.make_params(wid=column)
 
-    out = mod.fit(e_hat_proj, pars, x=e_hat)
-    F_AUC[n] = integrate.simps(out.best_fit, e_hat)
-    print(n+max_point[1]-30)
-    plt.figure()
-    plt.plot(e_hat, e_hat_proj, '.')
-    plt.plot(e_hat, out.best_fit, '-')
-    plt.title(str(n+max_point[1]-30))
-    plt.show()
-    time.sleep(0.2)
+    out = mod.fit(e_hat_proj, pars, x=np.arange(506, 522))
+    F_AUC[n] = integrate.simps(out.best_fit, np.arange(506, 522))
+    # if n % 2 == 0:
+    #     plt.figure()
+    #     plt.plot(e_hat, e_hat_proj, '.', label='Raw Data')
+    #     plt.plot(np.subtract(e_hat, 0.3), out.best_fit, '-', label='')
+    #     plt.title("dE= "+str(round(np.divide(n-width, np.sqrt(2)),1)))
+    #     plt.legend(loc='best')
+    #     plt.xlabel("E1+E2 [keV]")
+    #     plt.ylabel("Intensity")
+    #     plt.yscale('log')
+    #     plt.show()
+    #     time.sleep(0.2)
 
     # print(c)
     # plt.plot(E_hat, Ehat_proj, '.')
@@ -74,11 +79,14 @@ for n, c in enumerate(chn_num):
     # plt.title("dE: "+str(c))
     # plt.show()
 
+x_adj_CDBS = np.add(0.134 * np.subtract(chn_num, max_point[1]), 511)
 
-# plt.figure()
-# plt.plot(np.divide(F_AUC, np.max(F_AUC)))
-# plt.yscale('log')
-# plt.show()
+plt.figure()
+plt.plot(x_adj_CDBS, np.divide(F_AUC, np.max(F_AUC)))
+plt.ylabel('Normalized Intensity [A.U.]')
+plt.xlabel('Energy [KeV]')
+plt.yscale('log')
+plt.show()
 
 
 

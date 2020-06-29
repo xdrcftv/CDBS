@@ -40,15 +40,15 @@ for n, file in enumerate(CDBS_files):
     s_parameter[n] = s_value
     print("S_parameter of "+label_list[n]+": ", s_value)
 
-    x_adj_CDBS = np.add(0.134 * np.subtract(x_CDBS, max_point_CBDS[1]), 511)
+    x_adj_CDBS = np.add(0.134 * np.subtract(x_CDBS, max_point_CBDS[1]), 511.1)
     plt.plot(x_adj_CDBS, np.divide(y_CDBS, np.max(y_CDBS)), linestyle[n], label=label_list[n])
     # x_hr = np.linspace(x[0], x[-1], 10*len(x))
     # y_hr = gaussian(x_hr, cen=result.best_values['cen'], amp=result.best_values['amp'], wid=result.best_values['wid'])
     # plt.plot(x_hr, y_hr, '-')
 
 plt.yscale('log')
-plt.xlabel("keV")
-plt.ylabel("A.U.")
+plt.xlabel("Incident Photon Energy [keV]")
+plt.ylabel("Normalized Intensity [A.U.]")
 plt.legend(loc='best')
 plt.show()
 
