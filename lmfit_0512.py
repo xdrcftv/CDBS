@@ -41,6 +41,7 @@ axes[0].legend(loc='best')
 
 comps = out.eval_components(x=x)
 axes[1].plot(x, y, 'b')
+
 axes[1].plot(x, comps['g1_'], 'g--', label='Gaussian component 1')
 axes[1].plot(x, comps['g2_'], 'm--', label='Gaussian component 2')
 axes[1].plot(x, comps['exp_'], 'k--', label='Exponential component')
