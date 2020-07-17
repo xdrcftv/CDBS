@@ -1,6 +1,6 @@
-import os
-
+import matplotlib.pyplot as plt
 from lmfit import Model
+from scipy import integrate, constants
 
 from text_parser import *
 
@@ -31,7 +31,9 @@ for n, file in enumerate(CDBS_files):
     rot_matrix = ndimage.rotate(np.array(CDBS_data, dtype=float), -45)
     CDBS_matrix[basename] = ndimage.zoom(rot_matrix, 1/np.sqrt(2))
     x_CDBS, y_CDBS, max_point_CBDS = find_sudo_peak(CDBS_matrix[basename], width=width)
-
+    y_normal = np.divide(y_CDBS, np.max(y_CDBS))
+    y_flip = np.flip(y_normal)
+    y_final = np.divide(np.add(y_normal, y_flip), 2)
     # plt.plot(x, np.divide(y, AUC), '.', label=basename)
 
     params_CDBS = gmodel.make_params(cen=max_point_CBDS[1], amp=np.max(y_CDBS) * (np.sqrt(2 * np.pi) * width / 2), wid=width / 2)
@@ -42,11 +44,15 @@ for n, file in enumerate(CDBS_files):
     s_parameter[n] = s_value
     print("S_parameter of "+label_list[n]+": ", s_value)
 
-    x_adj_CDBS = np.add(0.134 * np.subtract(x_CDBS, max_point_CBDS[1]), 511.1)
-    plt.plot(x_adj_CDBS, np.divide(y_CDBS, np.max(y_CDBS)), linestyle[n], label=label_list[n])
+    x_adj_CDBS = np.add(0.134/np.sqrt(2) * np.subtract(x_CDBS, max_point_CBDS[1]), 511.1)
+    x_momentum = np.divide(x_adj_CDBS*1000000, constants.speed_of_light)
+    # plt.plot(x_adj_CDBS, np.divide(y_CDBS, np.max(y_CDBS)), linestyle[n], label=label_list[n])
+
     # x_hr = np.linspace(x[0], x[-1], 10*len(x))
     # y_hr = gaussian(x_hr, cen=result.best_values['cen'], amp=result.best_values['amp'], wid=result.best_values['wid'])
     # plt.plot(x_hr, y_hr, '-')
+
+    plt.plot(x_momentum, np.divide(y_CDBS, np.max(y_CDBS)), linestyle[n], label=label_list[n])
 
 plt.yscale('log')
 plt.xlabel("Incident Photon Energy [keV]")

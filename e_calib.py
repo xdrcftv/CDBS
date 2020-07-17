@@ -10,5 +10,7 @@ peaks, _ = find_peaks(y, height=1100)
 plt.figure()
 plt.plot(y)
 plt.plot(peaks, y[peaks], 'x')
-plt.plot(np.add(np.ones_like(y),1100), '--', color='gray')
+plt.plot(np.add(np.ones_like(y), 1100), '--', color='gray')
 plt.show()
+
+#0.134
