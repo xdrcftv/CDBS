@@ -1,6 +1,8 @@
-from text_parser import *
-from lmfit import Model
 import os
+
+from lmfit import Model
+
+from text_parser import *
 
 dir_path = 'C:/Users/admin/PycharmProjects/CDBS/2020_03_18'
 CDBS_files = glob.glob(os.path.join(dir_path, "*CDBS*.asc"))
@@ -12,7 +14,7 @@ width = 30
 gmodel = Model(gaussian)
 
 
-linestyle = ['-','-o', '-^', '>', 's','-.', ':']
+linestyle = ['-', '-o', '-^', '>', 's', '-.', ':']
 
 for n, file in enumerate(CDBS_files):
     basename = os.path.basename(file)
