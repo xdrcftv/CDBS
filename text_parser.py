@@ -41,7 +41,6 @@ def gaussian(x, amp, cen, wid):
 #     return (amp / (np.sqrt(2 * np.pi) * wid)) * np.exp(-(x - ) ** 2 / (2 * wid ** 2))
 
 
-
 def find_sudo_peak(matrix, width):
     """should be changed (peak detection algorithm needed)"""
     """return chn_num(x), count(y), max_point(peak index)"""
@@ -56,6 +55,3 @@ def extract_ROI(matrix, width):
     chn_num = np.arange(max_point[1]-width, max_point[1]+width)
     ROI_matrix = matrix[max_point[0]-1:max_point[0]+1, chn_num]
     return chn_num, ROI_matrix, max_point
-
-
-

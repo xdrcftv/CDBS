@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 from lmfit import Model
 from scipy import integrate
 
@@ -45,7 +46,7 @@ for n, file in enumerate(CDBS_files):
     s_parameter[n] = s_value
     print("S_parameter of "+label_list[n]+": ", s_value)
 
-    x_adj_CDBS = np.add((0.134*np.sqrt(2)) * np.subtract(x_CDBS, max_point_CBDS[1]),511.1)
+    x_adj_CDBS = np.add((0.134*np.sqrt(2)) * np.subtract(x_CDBS, max_point_CBDS[1]), 511.1)
     # plt.plot(x_adj_CDBS, np.divide(y_CDBS, np.max(y_CDBS)), linestyle[n], label=label_list[n])
 
     # x_hr = np.linspace(x[0], x[-1], 10*len(x))
