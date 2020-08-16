@@ -1,40 +1,32 @@
-from text_parser import *
+import matplotlib.pyplot as plt
+import numpy as np
+from scipy.signal import find_peaks, peak_widths
 
-e_calib_path = 'C:/KAERI/200313 CDBS energy calibration/'
-file_name = os.listdir(e_calib_path)
-file_path = glob.glob(os.path.join(e_calib_path, "*.asc"))
-
-
-doppler_spectrum = {}
-for n, path in enumerate(file_path):
-    f = open(path, 'r')
-    lines = f.readlines()
-    data = []
-    for i in range(1024):
-        count = lines[i+23].split(",")
-        count = list(map(int, count))
-        del count[0]
-        data.append(count)
-
-    data = np.array(data, dtype=float)
-    rot_data = ndimage.rotate(data, -45, reshape=False)
-    doppler_spectrum[file_name[n]] = rot_data
-
-
+# dat = np.loadtxt('2020_03_18/HPGe A Ra-226.asc')
+# chn = dat[:, 0]
+# count = dat[:, 1]
 #
-plt.figure()
-plt.title(file_name[0])
-plt.imshow(doppler_spectrum[file_name[0]])
-plt.show()
-
-
-# plt.imshow(CDBS_data)
+# peaks, _ = find_peaks(count, height=1100)
+# results_half = peak_widths(count, peaks, rel_height=0.5)
+# plt.figure()
+# plt.plot(count)
+# plt.plot(peaks, count[peaks], 'x')
+# plt.plot(np.add(np.zeros_like(count), 1100), '--', color='gray')
+# plt.hlines(*results_half[1:], color='C2')
 # plt.show()
-#
 
-# max_value = np.amax(CDBS_data)
-# r, c = np.where(CDBS_data == max_value)
-# print(r,c)
-# print(CDBS_data[r][c])
-# print(len(CDBS_data[0]))
+# 0.134
+# sigma = 13.776435/2.354820 = 5.850313
 
+dat = np.loadtxt('2020_03_18/HPGe B Ra-226.asc')
+chn = dat[:, 0]
+count = dat[:, 1]
+
+peaks, _ = find_peaks(count, height=1100)
+results_half = peak_widths(count, peaks, rel_height=0.5)
+plt.figure()
+plt.plot(count)
+plt.plot(peaks, count[peaks], 'x')
+plt.plot(np.add(np.zeros_like(count), 1100), '--', color='gray')
+plt.hlines(*results_half[1:], color='C2')
+plt.show()

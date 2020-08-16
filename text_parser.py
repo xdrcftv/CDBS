@@ -1,10 +1,8 @@
-import numpy as np
 import glob
-import matplotlib.pyplot as plt
-from scipy import ndimage
-from lmfit import Model
 import os
-from scipy import integrate
+
+import numpy as np
+from scipy import ndimage
 
 
 def CDBS_parser(path):
@@ -43,7 +41,6 @@ def gaussian(x, amp, cen, wid):
 #     return (amp / (np.sqrt(2 * np.pi) * wid)) * np.exp(-(x - ) ** 2 / (2 * wid ** 2))
 
 
-
 def find_sudo_peak(matrix, width):
     """should be changed (peak detection algorithm needed)"""
     """return chn_num(x), count(y), max_point(peak index)"""
@@ -58,24 +55,3 @@ def extract_ROI(matrix, width):
     chn_num = np.arange(max_point[1]-width, max_point[1]+width)
     ROI_matrix = matrix[max_point[0]-1:max_point[0]+1, chn_num]
     return chn_num, ROI_matrix, max_point
-
-# class CDBS:
-#
-#     def __init__(self, name, path):
-#         self.name = name
-#         self.path = path
-#
-#     def parse(self):
-#         f = open(self, 'r')
-#         lines = f.readlines()
-#         for i in range(1024):
-#             data = []
-#             count = lines[i+23].split(",")
-#             count = list(map(int, count))
-#             def count[0]
-#             data.append(count)
-#         self.matrix = ndimage.rotate(np.array(data, dtype=float), -45, reshape=False)
-#
-#     def find_peak
-
-
