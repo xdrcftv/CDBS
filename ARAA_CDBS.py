@@ -4,21 +4,21 @@ from scipy import integrate
 
 from text_parser import *
 
-dir_path = 'C:/Users/user/Desktop/ARAA'
-CDBS_files = glob.glob(os.path.join(dir_path, "*CDBS*.asc"))
+dir_path = 'ARAA_analysis/ARAA_June'
+CDBS_files = glob.glob(os.path.join(dir_path, "*.asc"))
 file_name = []
 CDBS_matrix = {}
-label_list = ['21', '26', '32', '34', '38']
+# label_list = ['21', '26', '32', '34', '38']
 
 width = 55
 gmodel = Model(gaussian)
 
+linestyle = ['s-', '^-', '>-', 'o-', '-.', ':', '--', 'o-', 'o-']
 
-linestyle = ['s-', '^-', '>-', 'o-', '-.', ':', '--']
 s_window = 5
 w_window = [7, 9]
-s_parameter = np.zeros(5)
-w_parameter = np.zeros(5)
+s_parameter = np.zeros(len(CDBS_files))
+w_parameter = np.zeros(len(CDBS_files))
 
 
 for n, file in enumerate(CDBS_files):
@@ -52,14 +52,14 @@ for n, file in enumerate(CDBS_files):
     AUC_center = integrate.simps(y_CDBS[width-s_window:width+s_window], x_CDBS[width-s_window:width+s_window])
     s_value = AUC_center/AUC_total
     s_parameter[n] = s_value
-    print("S_parameter of "+label_list[n]+": ", s_value)
+    print("S_parameter of "+basename+": ", s_value)
     ####################################################################################################################
     # w window calculation
     ####################################################################################################################
     AUC_wing = integrate.simps(y_CDBS[width+w_window[0]:width+w_window[1]], x_CDBS[width+w_window[0]:width+w_window[1]])
     w_value = 2*AUC_wing/AUC_center
     w_parameter[n] = w_value
-    print("W_parameter of " + label_list[n] + ": ", w_value)
+    print("W_parameter of " + basename + ": ", w_value)
     #x_adj_CDBS = np.add((0.134*np.sqrt(2)) * np.subtract(x_CDBS, max_point_CBDS[1]), 511.1) #  Incident Photon Energy [keV]
     x_adj_CDBS = (0.134) * np.subtract(x_CDBS, max_point_CBDS[1]) *2000/511
     # plt.plot(x_adj_CDBS, np.divide(y_CDBS, np.max(y_CDBS)), linestyle[n], label=label_list[n])
@@ -69,7 +69,7 @@ for n, file in enumerate(CDBS_files):
     # plt.plot(x_hr, y_hr, '-')
 
     # plt.plot(x_adj_CDBS, y_avg, linestyle[n], label=label_list[n])
-    plt.errorbar(x_adj_CDBS, y_normal, yerr=y_normal_err, fmt=linestyle[n], label=label_list[n], capsize=2)
+    plt.errorbar(x_adj_CDBS, y_normal, yerr=y_normal_err, fmt=linestyle[n], label=basename, capsize=2)
 plt.title('ARAA CDBS')
 plt.yscale('log')
 plt.xlabel("P(10e-3mc)")
