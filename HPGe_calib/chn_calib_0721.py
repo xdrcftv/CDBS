@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.signal import find_peaks, peak_widths
-import os, glob
 
 # file_list=[]
 # for subdir, dirs, files in os.walk('C:/Users/admin/PycharmProjects/CDBS/HPGe_calib/'):
@@ -25,7 +24,7 @@ import os, glob
 # resolution 0.20331578947368426
 # FWHM = 2*sqrt(2ln(2))*sigma
 
-datB = np.loadtxt('./detectorB_Cs137.asc')
+datB = np.loadtxt('C:/Users/user/PycharmProjects/CDBS/HPGe_calib/detectorB_Cs137.asc')
 chn = datB[:, 0]
 count = datB[:, 1]
 

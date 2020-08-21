@@ -15,14 +15,14 @@ gmodel = Model(gaussian)
 
 linestyle = ['s-', '^-', '>-', 'o-', '-.', ':', '--', 'o-', 'o-']
 
-s_window = 5
+s_window = 6
 w_window = [7, 9]
 s_parameter = np.zeros(len(CDBS_files))
 w_parameter = np.zeros(len(CDBS_files))
 
 
 for n, file in enumerate(CDBS_files):
-    basename = os.path.basename(file)
+    basename = os.path.splitext(os.path.basename(file))[0]
     file_name.append(basename)
     f = open(file, 'r')
     lines = f.readlines()

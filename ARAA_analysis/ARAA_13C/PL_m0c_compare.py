@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 from lmfit import Model
-from scipy import integrate
 
 from text_parser import *
 
@@ -15,7 +14,7 @@ gmodel = Model(gaussian)
 
 linestyle = ['s-', '^-', '>-', 'o-', '-.', ':', '--', 'o-', 'o-']
 
-s_window = 5
+s_window = 6
 w_window = [7, 9]
 s_parameter = np.zeros(len(CDBS_files))
 w_parameter = np.zeros(len(CDBS_files))
