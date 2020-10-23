@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
-from lmfit import Model
 import scipy.integrate as integrate
+from lmfit import Model
+
 from text_parser import *
 
-dir_path = 'C:/Users/admin/PycharmProjects/CDBS/ARAA_analysis/ARAA_13C/press'
+dir_path = 'C:/Users/user/PycharmProjects/CDBS/ARAA_analysis/ARAA_13C/press'
 CDBS_files = glob.glob(os.path.join(dir_path, "*.asc"))
 file_name = []
 CDBS_matrix = {}
@@ -76,7 +77,7 @@ for n, file in enumerate(CDBS_files):
         plt.plot(x_adj_CDBS, y_ratio, linestyle[n], label=label_press[n-1])
         # plt.errorbar(x_adj_CDBS, y_ratio, yerr=error, fmt=linestyle[n], label=basename, capsize=2)
 
-plt.plot(np.add(np.zeros_like(x_adj_CDBS),1), '--', color='gray')
+plt.plot(np.add(np.zeros_like(x_adj_CDBS), 1), '--', color='gray')
 plt.title('Ratio to Reference Bulk (0 pass)')
 plt.xlim(0, 15)
 plt.ylim(0.75,1.75)

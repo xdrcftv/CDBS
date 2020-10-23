@@ -1,9 +1,10 @@
 import matplotlib.pyplot as plt
-from lmfit import Model
 import scipy.integrate as integrate
+from lmfit import Model
+
 from text_parser import *
 
-dir_path = 'C:/Users/admin\PycharmProjects/CDBS/ARAA_analysis/ARAA_13C/tempt'
+dir_path = 'C:/Users/user/PycharmProjects/CDBS/ARAA_analysis/ARAA_13C/tempt'
 CDBS_files = glob.glob(os.path.join(dir_path, "*.asc"))
 file_name = []
 CDBS_matrix = {}

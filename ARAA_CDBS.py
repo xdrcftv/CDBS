@@ -15,7 +15,7 @@ gmodel = Model(gaussian)
 
 linestyle = ['s-', '^-', '>-', 'o-', '-.', ':', '--', 'o-', 'o-']
 
-s_window = 6
+s_window = 5
 w_window = [7, 9]
 s_parameter = np.zeros(len(CDBS_files))
 w_parameter = np.zeros(len(CDBS_files))
