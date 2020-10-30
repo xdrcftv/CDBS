@@ -10,12 +10,12 @@ file_name = []
 CDBS_matrix = {}
 # label_list = ['21', '26', '32', '34', '38']
 
-width = 75
+width = 100
 gmodel = Model(gaussian)
 
 linestyle = ['s-', '^-', '>-', 'o-', '-.', ':', '--', 'o-', 'o-']
 
-s_window = 5
+s_window = 4
 w_window = [7, 9]
 s_parameter = np.zeros(len(CDBS_files))
 w_parameter = np.zeros(len(CDBS_files))
@@ -60,8 +60,8 @@ for n, file in enumerate(CDBS_files):
     w_value = 2*AUC_wing/AUC_center
     w_parameter[n] = w_value
     print("W_parameter of " + basename + ": ", w_value)
-    #x_adj_CDBS = np.add((0.134*np.sqrt(2)) * np.subtract(x_CDBS, max_point_CBDS[1]), 511.1) #  Incident Photon Energy [keV]
-    x_adj_CDBS = (0.134) * np.subtract(x_CDBS, max_point_CBDS[1]) *2000/511
+    x_adj_CDBS = np.add((511/513*np.sqrt(2)) * np.subtract(x_CDBS, max_point_CBDS[1]), 511.1) #  Incident Photon Energy [keV]
+    #x_adj_CDBS = (0.134) * np.subtract(x_CDBS, max_point_CBDS[1]) *2000/511
     # plt.plot(x_adj_CDBS, np.divide(y_CDBS, np.max(y_CDBS)), linestyle[n], label=label_list[n])
 
     # x_hr = np.linspace(x[0], x[-1], 10*len(x))
@@ -69,10 +69,11 @@ for n, file in enumerate(CDBS_files):
     # plt.plot(x_hr, y_hr, '-')
 
     # plt.plot(x_adj_CDBS, y_avg, linestyle[n], label=label_list[n])
-    plt.errorbar(x_adj_CDBS, y_avg, yerr=y_err, fmt=linestyle[n], label=basename, capsize=2)
+    plt.errorbar(x_adj_CDBS, y_normal, yerr=y_normal_err, fmt=linestyle[n], label=basename, capsize=2)
 plt.title('ARAA CDBS')
 plt.yscale('log')
-plt.xlabel("P(10e-3mc)")
+#plt.xlabel("$P (10^{-3}m_0c)$")
+plt.xlabel("keV")
 plt.ylabel("Normalized Intensity [A.U.]")
 plt.legend(loc='best')
 plt.show()

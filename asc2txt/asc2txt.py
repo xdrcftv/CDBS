@@ -3,16 +3,19 @@ import os
 
 cwd = os.getcwd()
 CDBS_files = glob.glob(os.path.join(cwd, "*.asc"))
+
+print(CDBS_files)
 file_name = []
 CDBS_matrix = {}
 
 for file in CDBS_files:
     basename = os.path.splitext(os.path.basename(file))[0]
+    print(basename)
     file_name.append(basename)
     f = open(file, 'r')
     lines = f.readlines()
     CDBS_data = []
-    with open(basename[:-4]+'.txt','w') as txtfile:
+    with open(basename+'.txt','w') as txtfile:
         for i in range(1024):
             count = lines[i+23].split(",")
             count = list(map(int, count))

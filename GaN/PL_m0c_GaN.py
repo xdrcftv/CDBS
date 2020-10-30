@@ -38,22 +38,19 @@ for n, file in enumerate(CDBS_files):
     rot_matrix = ndimage.rotate(np.array(CDBS_data, dtype=float), -45)
     CDBS_matrix[basename] = ndimage.zoom(rot_matrix, 1 / np.sqrt(2))
 
-    if n == 0:
-        x_CDBS, y_CDBS, max_point_CBDS = find_sudo_peak(CDBS_matrix[basename], width=width)
-        y_flip = np.flip(y_CDBS)
-        y_avg_ref = np.divide(np.add(y_CDBS, y_flip), 2)
-        x_adj_CDBS = ((0.134) * np.subtract(x_CDBS, max_point_CBDS[1]) * 2000 / 511)
 
-        AUC_total = integrate.simps(y_avg_ref, x_CDBS)
-        AUC_sqrt = integrate.simps(np.sqrt(y_avg_ref), x_CDBS)
+    x_CDBS, y_CDBS, max_point_CBDS = find_sudo_peak(CDBS_matrix[basename], width=width)
+    y_flip = np.flip(y_CDBS)
+    y_avg_ref = np.divide(np.add(y_CDBS, y_flip), 2)
+    x_adj_CDBS = ((0.134) * np.subtract(x_CDBS, max_point_CBDS[1]) * 2000 / 511)
 
-        y_normal_ref = np.divide(y_avg_ref, AUC_total)
+    AUC_total = integrate.simps(y_avg_ref, x_CDBS)
+    AUC_sqrt = integrate.simps(np.sqrt(y_avg_ref), x_CDBS)
+
+    y_normal_ref = np.divide(y_avg_ref, AUC_total)
 
         # err_plus_ref = (y_avg_ref + np.divide(np.sqrt(y_avg_ref), AUC_total + AUC_sqrt))[width:]
         # err_minus_ref = (y_avg_ref - np.divide(np.sqrt(y_avg_ref), AUC_total - AUC_sqrt))[width:]
-    else:
-        print("Input file is more than 1")
-        break
 """
     else:
         x_CDBS, y_CDBS, max_point_CBDS = find_sudo_peak(CDBS_matrix[basename], width=width)
