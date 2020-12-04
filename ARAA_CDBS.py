@@ -4,16 +4,16 @@ from scipy import integrate
 
 from text_parser import *
 
-dir_path = 'ARAA_analysis/ARAA_June'
+dir_path = 'ARAA_analysis/ARAA_NAT'
 CDBS_files = glob.glob(os.path.join(dir_path, "*.asc"))
 file_name = []
 CDBS_matrix = {}
 # label_list = ['21', '26', '32', '34', '38']
 
-width = 55
+width = 115
 gmodel = Model(gaussian)
 
-linestyle = ['s-', '^-', '>-', 'o-', '-.', ':', '--', 'o-', 'o-']
+linestyle = ['o-', '^-', '>-', 'o-', '-.', ':', '--', 'o-', 'o-']
 
 s_window = 5
 w_window = [7, 9]
@@ -37,7 +37,7 @@ for n, file in enumerate(CDBS_files):
     x_CDBS, y_CDBS, max_point_CBDS = find_sudo_peak(CDBS_matrix[basename], width=width)
     y_flip = np.flip(y_CDBS)
     y_avg = np.divide(np.add(y_CDBS, y_flip), 2)
-    y_err = np.sqrt(y_avg)
+    y_err = np.sqrt(y_avg/2)
     y_normal = np.divide(y_avg, np.max(y_avg))
     y_normal_err = np.divide(y_err, np.max(y_avg))
     # plt.plot(x, np.divide(y, AUC), '.', label=basename)
@@ -72,7 +72,7 @@ for n, file in enumerate(CDBS_files):
     plt.errorbar(x_adj_CDBS, y_normal, yerr=y_normal_err, fmt=linestyle[n], label=basename, capsize=2)
 plt.title('ARAA CDBS')
 plt.yscale('log')
-plt.xlabel("P(10e-3mc)")
+plt.xlabel("P [10$^-$$^3$$m_0$c]")
 plt.ylabel("Normalized Intensity [A.U.]")
 plt.legend(loc='best')
 plt.show()
