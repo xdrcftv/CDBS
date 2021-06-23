@@ -4,7 +4,22 @@ from scipy import integrate
 
 from text_parser import *
 
+####################################### plt control ################################################
+SMALL_SIZE = 8
+MEDIUM_SIZE = 10
+BIGGER_SIZE = 15
+
+plt.rc('font', size=MEDIUM_SIZE)          # controls default text sizes
+plt.rc('axes', titlesize=BIGGER_SIZE)     # fontsize of the axes title
+plt.rc('axes', labelsize=15)    # fontsize of the x and y labels
+plt.rc('xtick', labelsize=12)    # fontsize of the tick labels
+plt.rc('ytick', labelsize=12)    # fontsize of the tick labels
+plt.rc('legend', fontsize=MEDIUM_SIZE)    # legend fontsize
+plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
+####################################### plt control ################################################
+
 dir_path = 'C:/Users/user/PycharmProjects/CDBS/ARAA_analysis/ARAA_October'
+dir_path = 'C:/Users/user/PycharmProjects/CDBS/PEM'
 CDBS_files = glob.glob(os.path.join(dir_path, "*.asc"))
 file_name = []
 CDBS_matrix = {}
@@ -71,9 +86,9 @@ for n, file in enumerate(CDBS_files):
     # plt.plot(x_adj_CDBS, y_avg, linestyle[n], label=label_list[n])
 
     plt.errorbar(x_adj_CDBS, y_normal, yerr=y_normal_err, fmt=linestyle[n], label=basename, capsize=2)
-plt.title('ARAA CDBS')
+plt.title('ARAA CDBS', fontweight='bold')
 plt.yscale('log')
-plt.xlabel("P(10e-3mc)")
-plt.ylabel("Normalized Intensity [A.U.]")
+plt.xlabel("$P_L $[10$^{-3}m_0c$]", fontweight='bold')
+plt.ylabel("Normalized Intensity [A.U.]", fontweight='bold')
 plt.legend(loc='best')
 plt.show()

@@ -45,13 +45,21 @@ def find_sudo_peak(matrix, width):
     """should be changed (peak detection algorithm needed)"""
     """return chn_num(x), count(y), max_point(peak index)"""
     max_point = np.squeeze(np.array(np.where(matrix == np.amax(matrix))))
-    chn_num = np.arange(max_point[1]-width, max_point[1]+width)
+    chn_num = np.arange(max_point[1]-width, max_point[1]+width+1) # len(chn_num) = 2*width+1
     count = matrix[max_point[0], chn_num]
     return chn_num, count, max_point
 
 
-def extract_ROI(matrix, width):
+def extract_ROI(matrix, width, ROI_thickness):
     max_point = np.squeeze(np.array(np.where(matrix == np.amax(matrix))))
-    chn_num = np.arange(max_point[1]-width, max_point[1]+width)
-    ROI_matrix = matrix[max_point[0]-1:max_point[0]+1, chn_num]
-    return chn_num, ROI_matrix, max_point
+    chn_num = np.arange(max_point[1]-width, max_point[1]+width+1)
+    ROI_matrix = matrix[max_point[0]-ROI_thickness:max_point[0]+ROI_thickness, chn_num]
+    ROI_count = ROI_matrix.sum(axis=0)
+    return chn_num, ROI_count, max_point
+
+def count_normalize(count):
+    count_flip = np.flip(count)
+    count_avg = np.divide(np.add(count, count_flip), 2)
+    count_normal = np.divide(count_avg, np.max(count_avg))
+    count_normal_err = np.divide(np.sqrt(count_avg/2), np.max(count_avg))
+    return count_normal, count_normal_err

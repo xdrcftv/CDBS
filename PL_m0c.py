@@ -1,11 +1,11 @@
-import os
-
+import matplotlib.pyplot as plt
+import scipy.integrate as integrate
 from lmfit import Model
 
 from text_parser import *
 
 dir_path = 'C:/Users/admin/PycharmProjects/CDBS/2020_03_18'
-CDBS_files = glob.glob(os.path.join(dir_path, "*CDBS*.asc"))
+CDBS_files = glob.glob(os.path.join(dir_path, "*.asc"))
 file_name = []
 CDBS_matrix = {}
 label_list = ['sample 2', 'sample 3', 'sample A']

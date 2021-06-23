@@ -22,7 +22,6 @@ for n, file in enumerate(DBS_files):
     energy_fit = float(lines[16403].strip()[-8:])
     width = round(10 / energy_fit)
     s_width = round(1 / energy_fit)
-
     ann_peak = round(511 / energy_fit)
     chn_num = np.arange(ann_peak - width, ann_peak + width + 1)  # np.arange는 마지막 성분-1 까지 만듬
     x_DBS = np.multiply(energy_fit, chn_num)

@@ -19,6 +19,7 @@ plt.rc('figure', titlesize=BIGGER_SIZE)  # fontsize of the figure title
 ####################################### plt control ################################################
 
 dir_path = 'C:/Users/user/PycharmProjects/CDBS/ARAA_analysis/ARAA_October'
+dir_path = 'C:/Users/user/PycharmProjects/CDBS/PEM'
 CDBS_files = glob.glob(os.path.join(dir_path, "*.asc"))
 file_name = []
 CDBS_matrix = {}
